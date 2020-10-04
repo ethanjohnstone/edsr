@@ -1,21 +1,25 @@
-var service = require("../services/ph.service");
+const service = require("../services/ph.service");
+const Record = require("../models/phRecord.model");
 
 /**
  * Function to create the ph record in the collection
  */
 exports.create = (req, res, next) => {
-    const body = new PhRecord(req.body);
-    if (!body.reading) {
+    if (!req.body.reading) {
         return res.status(400).send("Phrecord is missing a reading..");
     }
 
-    service.create(body, (err, response) => {
-        if (response) {
-            res.status(201).send(response);
-        } else if (error) {
-            res.status(400).send(error);
-        }
+    const record = new Record({
+        reading: req.body.temp
     });
+
+    record.save()
+        .then(data => {
+            res.redirect("/");
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message || "Some error occured while saving the record"});
+        });
 };
 
 exports.find = (req, res) => {
@@ -107,9 +111,3 @@ exports.delete = (req, res) => {
         }
     });
 };
-
-class PhRecord {
-    constructor(data) {
-        this.reading = data.reading || "";
-    }
-}
