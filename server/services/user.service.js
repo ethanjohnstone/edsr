@@ -7,7 +7,7 @@
      _** @param {**_} data user data
      _** @param {**_} callback callback function.
      _**/
-    exports.createUser = function (data, callback) {
+    exports.create = function (data, callback) {
         user.create(data).then((response) => {
             callback(null, response);
         }, (error) => {
@@ -20,7 +20,7 @@
      _ @param {_} query condition or expression to find the user from collection.
      _ @param {_} callback callback function
      _*/
-    exports.findUser = function (query, callback) {
+    exports.find = function (query, callback) {
         user.findOne(query, callback);
     }
 
@@ -29,7 +29,7 @@
      _** @param {**_} id user id
      _** @param {**_} data user data which we need to update.
      _**/
-    exports.updateUserById = function (id, data, callback) {
+    exports.updateById = function (id, data, callback) {
         user.findByIdAndUpdate({
             _id: id
         }, data, (err, response) => {
@@ -43,12 +43,12 @@
      _ @param {_} data data which we need to update.
      _ @param {_} options 
      _**/
-    exports.updateUser = function (query, data, options, callback) {
+    exports.update = function (query, data, options, callback) {
         user.findOneAndUpdate(query, data, options, (err, response) => {
             callback(err, response);
         });
     }
 
-    exports.deleteUser = function (query, callback) {
+    exports.delete = function (query, callback) {
         user.deleteOne(query, callback);
     }
