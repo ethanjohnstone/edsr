@@ -19,5 +19,4 @@ var schema = new mongoose.Schema({
     role: String
 });
 
-var user = new mongoose.model("User", schema);
-module.exports = user;
+module.exports = new mongoose.model("User", schema);

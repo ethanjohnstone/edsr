@@ -22,6 +22,19 @@ exports.create = (req, res, next) => {
         });
 };
 
+/**
+ * Retrieve all ph records;
+ */
+exports.findAll = (req, res) => {
+    Record.find()
+        .then(data => {
+            res.status(200).send(data);
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message || "error retrieving records"})
+        });
+}
+
 exports.find = (req, res) => {
     let params = req.params || {};
     let query = {
