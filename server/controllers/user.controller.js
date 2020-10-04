@@ -1,17 +1,16 @@
 
-var userService = require('../services/user.service');
+var service = require('../services/user.service');
 
 /**
  **_ Function to create the user in user collection.
  _**/
-exports.create = function (req, res, next) {
+exports.create = (req, res, next) => {
     var body = new User(req.body);
     if (!body.username) {
-        res.status(400).send('User name is missing');
-        return;
+        return res.status(400).send('User name is missing');
     }
     
-    userService.createUser(body, function (error, response) {
+    service.create(body, (error, response) => {
         if (response) {
             res.status(201).send(response);
         } else if (error) {
@@ -29,21 +28,17 @@ exports.find = function (req, res) {
         username: params.username
     };
     if (!query) {
-        res.status(400).send('Bad Request');
-        return;
+        return res.status(400).send('Bad Request');
     }
-    userService.findUser(query, function (error, response) {
+
+    service.find(query, function (error, response) {
         if (error) {
-            res.status(404).send(error);
-            return;
+            return res.status(404).send(error);
         }
-        if (response) {
+
+        return (!response) ? 
+            res.status(204).send('No Data Found') :
             res.status(200).send(response);
-            return;
-        }
-        if (!response) {
-            res.status(204).send('No Data Found');
-        }
     });
 }
 
@@ -58,7 +53,7 @@ exports.updateById = function (req, res) {
         return;
     }
     var updateData = body.data || {}
-    userService.updateUserById(body.id, updateData, (err, response) => {
+    service.updateById(body.id, updateData, (err, response) => {
         if (response) {
             res.status(200).send(response);
         } else if (err) {
@@ -80,7 +75,7 @@ exports.update = function (req, res) {
         return;
     }
 
-    userService.updateUser(query, data, options, (err, response) => {
+    service.update(query, data, options, (err, response) => {
         if (response) {
             res.status(200).send(response);
         } else if (err) {
@@ -99,7 +94,7 @@ exports.delete = function (req, res) {
         res.status(400).send('Bad Request');
         return;
     }
-    userService.deleteUser(query, function (error, response) {
+    service.delete(query, function (error, response) {
         if (error) {
             res.status(400).send(error);
             return;
