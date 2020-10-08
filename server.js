@@ -15,10 +15,10 @@ fs.readdirSync(models)
 
 var indexRouter = require('./server/routes/index');
 var usersRouter = require('./server/routes/users.route');
+var tempsRouter = require('./server/routes/temps.route');
+var phRouter = require("./server/routes/ph.route");
 
 var app = express();
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,6 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/temps', tempsRouter);
+app.use('/api/ph', phRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
