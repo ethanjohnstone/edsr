@@ -8,9 +8,9 @@ const phRecord = mongoose.model('phRecord');
  */
 
 exports.create = (data, callback) => {
-    phRecord.create(data).then((response) => {
+    phRecord.create(data).then(response => {
         callback(null, response);
-    }, (error) => {
+    }, error => {
         callback(error, null);    
     });
 };
